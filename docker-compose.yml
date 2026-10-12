@@ -1,0 +1,49 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: taurge
+      POSTGRES_PASSWORD: taurge
+      POSTGRES_DB: taurge
+    ports:
+      - "5432:5432"
+    volumes:
+      - taurge_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U taurge"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: ./apps/api
+    environment:
+      DATABASE_URL: postgresql://taurge:taurge@db:5432/taurge
+      ENVIRONMENT: development
+      STORAGE_PATH: /app/storage_data
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./apps/api:/app
+      - taurge_storage_data:/app/storage_data
+      - taurge_argos_models:/root/.local/share/argos-translate
+
+  web:
+    build: ./apps/web
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+
+volumes:
+  taurge_db_data:
+  taurge_storage_data:
+  taurge_argos_models:

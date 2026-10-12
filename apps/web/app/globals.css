@@ -1,0 +1,199 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Taurge — "Table d'encrage"
+  Paper, sumi ink, and a single vermilion seal used to mark validated work.
+*/
+
+@theme inline {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --color-paper: var(--paper);
+  --color-sheet: var(--sheet);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-hairline: var(--hairline);
+  --color-seal: var(--seal);
+  --color-seal-ink: var(--seal-ink);
+  --color-seal-wash: var(--seal-wash);
+  --color-ok: var(--ok);
+  --color-ok-wash: var(--ok-wash);
+  --color-caution: var(--caution);
+  --color-caution-wash: var(--caution-wash);
+  --color-danger: var(--danger);
+  --color-danger-wash: var(--danger-wash);
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+
+  --radius-sm: 1px;
+  --radius-md: 2px;
+  --radius-lg: 3px;
+  --radius-xl: 4px;
+
+  --ease-ink: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:root {
+  color-scheme: light;
+  --paper: oklch(0.962 0.013 84);
+  --sheet: oklch(0.988 0.007 84);
+  --ink: oklch(0.205 0.012 60);
+  --ink-soft: oklch(0.47 0.016 62);
+  --hairline: oklch(0.86 0.016 80);
+  --seal: oklch(0.565 0.195 31);
+  --seal-ink: oklch(0.985 0.01 84);
+  --seal-wash: oklch(0.93 0.045 40);
+  --ok: oklch(0.47 0.09 155);
+  --ok-wash: oklch(0.93 0.035 155);
+  --caution: oklch(0.52 0.11 70);
+  --caution-wash: oklch(0.94 0.05 85);
+  --danger: oklch(0.5 0.19 27);
+  --danger-wash: oklch(0.94 0.04 27);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--sheet);
+  --card-foreground: var(--ink);
+  --popover: var(--sheet);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--sheet);
+  --secondary: oklch(0.92 0.014 82);
+  --secondary-foreground: var(--ink);
+  --muted: oklch(0.93 0.013 82);
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--seal-wash);
+  --accent-foreground: var(--ink);
+  --destructive: var(--danger);
+  --border: var(--hairline);
+  --input: var(--hairline);
+  --ring: var(--seal);
+  --radius: 2px;
+
+  --tone-dot: oklch(0.205 0.012 60 / 0.14);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --paper: oklch(0.175 0.008 60);
+    --sheet: oklch(0.215 0.009 60);
+    --ink: oklch(0.935 0.012 84);
+    --ink-soft: oklch(0.7 0.014 75);
+    --hairline: oklch(0.33 0.011 60);
+    --seal: oklch(0.66 0.18 33);
+    --seal-ink: oklch(0.16 0.01 40);
+    --seal-wash: oklch(0.3 0.06 33);
+    --ok: oklch(0.74 0.11 155);
+    --ok-wash: oklch(0.28 0.04 155);
+    --caution: oklch(0.8 0.12 80);
+    --caution-wash: oklch(0.3 0.05 80);
+    --danger: oklch(0.72 0.16 27);
+    --danger-wash: oklch(0.3 0.06 27);
+
+    --secondary: oklch(0.26 0.01 60);
+    --muted: oklch(0.25 0.009 60);
+    --tone-dot: oklch(0.935 0.012 84 / 0.09);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/60;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: 'ss01', 'tnum';
+  }
+  ::selection {
+    background: var(--seal);
+    color: var(--seal-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--seal);
+    outline-offset: 2px;
+  }
+}
+
+@utility tone {
+  background-image: radial-gradient(var(--tone-dot) 1px, transparent 1.2px);
+  background-size: 7px 7px;
+}
+
+@utility panel {
+  border: 1.5px solid var(--ink);
+  background: var(--sheet);
+}
+
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@keyframes stamp-in {
+  0% {
+    transform: scale(1.35) rotate(-8deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.94) rotate(-3deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(-4deg);
+  }
+}
+
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@utility animate-stamp {
+  animation: stamp-in 320ms var(--ease-ink) both;
+}
+
+@utility animate-scan {
+  animation: scan 1.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
